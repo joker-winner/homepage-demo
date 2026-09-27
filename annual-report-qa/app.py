@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import gzip
 import math
 import re
 from collections import Counter
@@ -10,6 +11,7 @@ import streamlit as st
 
 ROOT = Path(__file__).parent
 CHUNKS = ROOT / "data" / "processed" / "chunks.jsonl"
+CHUNK_DIR = ROOT / "data" / "processed"
 
 
 def terms(text: str) -> list[str]:
@@ -25,9 +27,14 @@ def terms(text: str) -> list[str]:
 
 @st.cache_data
 def load_chunks():
-    if not CHUNKS.exists():
-        return []
-    return [json.loads(line) for line in CHUNKS.read_text(encoding="utf-8").splitlines() if line]
+    if CHUNKS.exists():
+        return [json.loads(line) for line in CHUNKS.read_text(encoding="utf-8").splitlines() if line]
+    # Public deployment stores the same JSONL index as small gzip shards.
+    docs = []
+    for shard in sorted(CHUNK_DIR.glob("chunks-*.jsonl.gz")):
+        with gzip.open(shard, "rt", encoding="utf-8") as stream:
+            docs.extend(json.loads(line) for line in stream if line.strip())
+    return docs
 
 
 def search(query: str, docs: list[dict], top_k=6, balanced=False):
