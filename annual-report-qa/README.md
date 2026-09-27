@@ -11,7 +11,7 @@ python scripts/build_index.py
 streamlit run app.py
 ```
 
-首次建立索引会下载原始 PDF 到 `data/pdfs/`。处理结果在 `data/processed/`，其中每块都记录公司、章节、PDF 页码、报告标题和原文 URL。原始 PDF 与切块索引不纳入仓库；执行构建脚本即可复现。
+首次重建索引会下载原始 PDF 到 `data/pdfs/`。处理结果在 `data/processed/`，每块都记录公司、章节、PDF 页码、报告标题和原文 URL。公开部署分支附带 gzip 压缩的切块索引，因此部署时不需要重新下载年报；原始 PDF 不纳入仓库。
 
 ## 语料、页码和表格
 
@@ -31,6 +31,10 @@ streamlit run app.py
 - 运行 `python evaluation/run_eval.py` 可重新生成 Top-6 召回记录和保守的证据覆盖检查；自动检查不能代替人工判断，最终对错请逐题核对页面证据后更新。
 - [`outputs/结论.md`](outputs/结论.md)：一页结论模板，等评测结果复核后填写。
 - [`outputs/screenshots/`](outputs/screenshots/)：实际运行页面截图。
+
+## 部署为公开网页
+
+本作业分支位于仓库子目录 `annual-report-qa/`。在 Streamlit Community Cloud 登录并连接 GitHub，选择仓库 `joker-winner/homepage-demo`、分支 `annual-report-qa`，主文件路径填写 `annual-report-qa/app.py`，再点击 Deploy。发布完成后，复制 Streamlit 提供的 `*.streamlit.app` 链接即可分享。部署用索引以 `chunks-*.jsonl.gz` 保存；应用会自动读取这些分片。
 
 ## 目录
 
