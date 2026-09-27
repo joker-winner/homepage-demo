@@ -34,7 +34,7 @@ streamlit run app.py
 
 ## 部署为公开网页
 
-本作业分支位于仓库子目录 `annual-report-qa/`。在 Streamlit Community Cloud 登录并连接 GitHub，选择仓库 `joker-winner/homepage-demo`、分支 `annual-report-qa`，主文件路径填写 `annual-report-qa/app.py`，再点击 Deploy。发布完成后，复制 Streamlit 提供的 `*.streamlit.app` 链接即可分享。部署用索引以 `chunks-*.jsonl.gz` 保存；应用会自动读取这些分片。
+公开网页：https://joker-winner.github.io/homepage-demo/ 。GitHub Pages 从 `annual-report-qa` 分支的 `/docs` 发布；网页索引位于 `docs/data/processed/chunks-*.jsonl.gz`。Streamlit 源码版仍可在本地按快速开始步骤运行。
 
 ## 目录
 
