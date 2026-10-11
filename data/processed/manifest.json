@@ -1,0 +1,82 @@
+[
+  {
+    "company": "青岛啤酒",
+    "ticker": "600600",
+    "pages": 225,
+    "chunks": 407,
+    "pdf": "600600_2024.pdf",
+    "status": "indexed"
+  },
+  {
+    "company": "燕京啤酒",
+    "ticker": "000729",
+    "pages": 203,
+    "chunks": 380,
+    "pdf": "000729_2024.pdf",
+    "status": "indexed"
+  },
+  {
+    "company": "重庆啤酒",
+    "ticker": "600132",
+    "pages": 208,
+    "chunks": 275,
+    "pdf": "600132_2024.pdf",
+    "status": "indexed"
+  },
+  {
+    "company": "珠江啤酒",
+    "ticker": "002461",
+    "pages": 227,
+    "chunks": 403,
+    "pdf": "002461_2024.pdf",
+    "status": "indexed"
+  },
+  {
+    "company": "惠泉啤酒",
+    "ticker": "600573",
+    "pages": 145,
+    "chunks": 245,
+    "pdf": "600573_2024.pdf",
+    "status": "indexed"
+  },
+  {
+    "company": "兰州黄河",
+    "ticker": "000929",
+    "pages": 179,
+    "chunks": 331,
+    "pdf": "000929_2024.pdf",
+    "status": "indexed"
+  },
+  {
+    "company": "西藏发展",
+    "ticker": "000752",
+    "pages": 210,
+    "chunks": 388,
+    "pdf": "000752_2024.pdf",
+    "status": "indexed"
+  },
+  {
+    "company": "莫高股份",
+    "ticker": "600543",
+    "pages": 184,
+    "chunks": 332,
+    "pdf": "600543_2024.pdf",
+    "status": "indexed"
+  },
+  {
+    "company": "迎驾贡酒",
+    "ticker": "603198",
+    "pages": 218,
+    "chunks": 365,
+    "pdf": "603198_2024.pdf",
+    "status": "indexed"
+  },
+  {
+    "company": "皇台酒业",
+    "ticker": "000995",
+    "pages": 159,
+    "chunks": 308,
+    "pdf": "000995_2024.pdf",
+    "status": "indexed"
+  }
+]

@@ -4,4 +4,5 @@ __pycache__/
 .DS_Store
 data/pdfs/*.pdf
 outputs/screenshots/*.png
+!outputs/screenshots/全景问答.png
 !outputs/screenshots/.gitkeep

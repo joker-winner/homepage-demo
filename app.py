@@ -37,7 +37,7 @@ def load_chunks():
     return docs
 
 
-def search(query: str, docs: list[dict], top_k=6, balanced=False):
+def search(query: str, docs: list[dict], top_k=6, balanced=False, required_companies=None, company_filter=None):
     q = terms(query)
     if not q or not docs:
         return []
@@ -71,13 +71,15 @@ def search(query: str, docs: list[dict], top_k=6, balanced=False):
     b, v = norm_scores(bm25), norm_scores(dense)
     ranked = sorted(range(n), key=lambda i: 0.6 * b[i] + 0.4 * v[i], reverse=True)
     scored = [{**filtered_docs[i], "score": round(0.6*b[i]+0.4*v[i], 4), "bm25": round(b[i], 4), "vector": round(v[i], 4)} for i in ranked if b[i] or v[i]]
+    if company_filter:
+        scored = [hit for hit in scored if hit.get("company") == company_filter]
     if balanced:
         # Round-robin across companies to keep broad questions from collapsing to one issuer.
         by_company = {}
         for hit in scored:
             by_company.setdefault(hit.get("company", ""), []).append(hit)
         out = []
-        priority_companies = ["青岛啤酒", "燕京啤酒"]
+        priority_companies = required_companies or []
         for company in priority_companies:
             if company in by_company and by_company[company] and len(out) < top_k:
                 out.append(by_company[company].pop(0))
@@ -119,8 +121,21 @@ with st.form("ask"):
     query = st.text_input("提问", placeholder="例如：哪些公司提到线上渠道增长？请比较青岛啤酒和燕京啤酒。", label_visibility="collapsed")
     submitted = st.form_submit_button("检索年报", use_container_width=False)
 if submitted and query:
-    all_company_question = any(x in query for x in ["比较", "哪些公司", "分别", "跨公司", "两家公司"])
-    hits = search(query, docs, balanced=all_company_question)
+    named_companies = [c for c in companies if c in query]
+    all_company_question = any(x in query for x in ["全体", "所有公司", "行业全景", "各公司", "逐家公司"])
+    required_companies = companies if all_company_question else named_companies if len(named_companies) > 1 else []
+    if all_company_question:
+        st.markdown("### 全景取证：按公司分别召回")
+        st.caption("先逐家公司检查证据覆盖，再归纳答案。下面的证据条目是检索候选；每家公司仍需核对主题相关性、报告口径和出处。")
+        hits = []
+        for company in required_companies:
+            company_hits = search(f"{company} {query}", docs, top_k=3, company_filter=company)
+            if company_hits:
+                hits.extend(company_hits)
+            else:
+                st.warning(f"{company}：没有召回候选证据，需记为证据缺口。")
+    else:
+        hits = search(query, docs, balanced=bool(required_companies), required_companies=required_companies)
     if not hits:
         st.info("索引尚未生成。请先执行 README 中的下载与索引步骤。")
     else:
